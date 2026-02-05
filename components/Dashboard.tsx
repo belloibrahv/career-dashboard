@@ -153,7 +153,7 @@ export default function Dashboard() {
                   <span className="text-sm font-semibold" style={{ color: '#9b8f85' }}>Total Income</span>
                 </div>
                 <div className="text-2xl font-bold" style={{ color: '#7a8b6f' }}>
-                  ${totalIncome.toFixed(2)}
+                  ₦{totalIncome.toFixed(2)}
                 </div>
               </div>
 
@@ -164,7 +164,7 @@ export default function Dashboard() {
                   <span className="text-sm font-semibold" style={{ color: '#9b8f85' }}>Total Expenses</span>
                 </div>
                 <div className="text-2xl font-bold" style={{ color: '#c97a5c' }}>
-                  ${totalExpenses.toFixed(2)}
+                  ₦{totalExpenses.toFixed(2)}
                 </div>
               </div>
 
@@ -175,7 +175,7 @@ export default function Dashboard() {
                   <span className="text-sm font-semibold" style={{ color: '#9b8f85' }}>Net Balance</span>
                 </div>
                 <div className="text-2xl font-bold" style={{ color: netBalance >= 0 ? '#7a8b6f' : '#c97a5c' }}>
-                  ${netBalance.toFixed(2)}
+                  ₦{netBalance.toFixed(2)}
                 </div>
               </div>
             </div>
