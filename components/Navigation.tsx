@@ -25,8 +25,8 @@ export default function Navigation({ activeSection, onSectionChange, mobileMenuO
   };
 
   return (
-    <nav className="border-b sticky top-0 z-50 glass" style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: '#ede8e3' }}>
-      <div className="px-4 sm:px-6 lg:px-8">
+    <nav className="nav-shell sticky top-0 z-50">
+      <div className="max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         {/* Top Bar */}
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -55,20 +55,10 @@ export default function Navigation({ activeSection, onSectionChange, mobileMenuO
                 <button
                   key={section.id}
                   onClick={() => onSectionChange(section.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-medium relative group ${
-                    isActive
-                      ? 'text-[#c97a5c]'
-                      : 'text-[#9b8f85] hover:text-[#2a2520]'
-                  }`}
-                  style={{
-                    backgroundColor: isActive ? '#f0ebe5' : 'transparent',
-                  }}
+                  className={`nav-link flex items-center gap-2 ${isActive ? 'active' : ''}`}
                 >
                   <Icon size={18} />
                   {section.label}
-                  {isActive && (
-                    <div className="absolute bottom-0 left-4 right-4 h-0.5 gradient-primary rounded-full" />
-                  )}
                 </button>
               );
             })}
@@ -77,8 +67,7 @@ export default function Navigation({ activeSection, onSectionChange, mobileMenuO
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg transition-all hover-lift"
-            style={{ backgroundColor: '#f0ebe5', color: '#2a2520' }}
+            className="md:hidden btn-ghost"
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -95,20 +84,10 @@ export default function Navigation({ activeSection, onSectionChange, mobileMenuO
                   <button
                     key={section.id}
                     onClick={() => handleNavClick(section.id)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm font-medium w-full relative ${
-                      isActive
-                        ? 'text-[#c97a5c]'
-                        : 'text-[#9b8f85] hover:text-[#2a2520]'
-                    }`}
-                    style={{
-                      backgroundColor: isActive ? '#f0ebe5' : 'transparent',
-                    }}
+                    className={`nav-link flex items-center gap-3 w-full justify-start ${isActive ? 'active' : ''}`}
                   >
                     <Icon size={18} />
                     {section.label}
-                    {isActive && (
-                      <div className="absolute right-4 w-2 h-2 rounded-full gradient-primary" />
-                    )}
                   </button>
                 );
               })}

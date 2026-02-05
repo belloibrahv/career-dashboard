@@ -2,7 +2,8 @@
 
 import { useStore, JobApplication } from '@/lib/store';
 import { useState } from 'react';
-import { Trash2, Edit2, Plus, Briefcase } from 'lucide-react';
+import { Trash2, Edit2, Briefcase } from 'lucide-react';
+import SectionHeader from '@/components/ui/SectionHeader';
 
 export default function Focus() {
   const { jobs, addJob, updateJob, deleteJob } = useStore();
@@ -57,23 +58,21 @@ export default function Focus() {
   };
 
   return (
-    <div className="space-y-8">
-      {/* Page Header */}
-      <div className="border-b pb-6" style={{ borderColor: '#ede8e3' }}>
-        <div className="flex items-center gap-3 mb-2">
-          <Briefcase size={32} style={{ color: '#c97a5c' }} />
-          <h1 className="text-4xl font-bold" style={{ color: '#2a2520' }}>
-            Job Applications
-          </h1>
-        </div>
-        <p className="text-base" style={{ color: '#9b8f85' }}>Track your career opportunities</p>
-      </div>
+    <div className="page">
+      <SectionHeader
+        icon={<Briefcase size={20} />}
+        title="Job Applications"
+        subtitle="Track your career opportunities"
+        action={!isAdding ? { label: 'Add Application', onClick: () => setIsAdding(true) } : undefined}
+      />
 
       {/* Stats */}
       {jobs.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Overview</h2>
-          <div className="grid grid-cols-4 gap-4">
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">Overview</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="stat-card">
               <div className="stat-label">Total</div>
               <div className="stat-value">{stats.total}</div>
@@ -96,13 +95,15 @@ export default function Focus() {
 
       {/* Add/Edit Form */}
       {isAdding && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">
             {editingId ? 'Edit Application' : 'Add New Application'}
-          </h2>
+            </h2>
+          </div>
           <div className="card-elevated p-6 animate-slideUp">
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="form-label mb-2 block">Company</label>
                   <input
@@ -161,10 +162,10 @@ export default function Focus() {
                   rows={3}
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row sm:justify-end gap-2">
                 <button
                   type="submit"
-                  className="btn-primary flex-1"
+                  className="btn-primary w-full sm:w-auto"
                 >
                   {editingId ? 'Update' : 'Add'} Application
                 </button>
@@ -181,7 +182,7 @@ export default function Focus() {
                       notes: '',
                     });
                   }}
-                  className="btn-secondary flex-1"
+                  className="btn-secondary w-full sm:w-auto"
                 >
                   Cancel
                 </button>
@@ -191,30 +192,19 @@ export default function Focus() {
         </div>
       )}
 
-      {/* Add Button */}
-      {!isAdding && (
-        <div>
-          <button
-            onClick={() => setIsAdding(true)}
-            className="btn-primary flex items-center justify-center gap-2"
-          >
-            <Plus size={20} />
-            Add Application
-          </button>
-        </div>
-      )}
-
       {/* Jobs List */}
       {jobs.length > 0 ? (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Applications</h2>
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">Applications</h2>
+          </div>
           <div className="space-y-3">
             {jobs.map(job => {
               const config = statusConfig[job.status];
               return (
                 <div
                   key={job.id}
-                  className="card p-5 border-l-4"
+                  className="card p-4 border-l-4"
                   style={{ borderLeftColor: '#c97a5c' }}
                 >
                   <div className="flex items-start justify-between gap-4 mb-3">
@@ -265,10 +255,12 @@ export default function Focus() {
           </div>
         </div>
       ) : (
-        <div className="card-elevated p-16 text-center">
-          <p className="text-6xl mb-4">🎯</p>
-          <h3 className="text-xl font-bold mb-2" style={{ color: '#2a2520' }}>No applications yet</h3>
-          <p style={{ color: '#9b8f85' }}>Start tracking your job search</p>
+        <div className="empty-state">
+          <div className="empty-icon">🎯</div>
+          <div>
+            <h3 className="text-lg font-semibold" style={{ color: '#2a2520' }}>No applications yet</h3>
+            <p style={{ color: '#9b8f85' }}>Start tracking your job search.</p>
+          </div>
         </div>
       )}
     </div>

@@ -2,7 +2,8 @@
 
 import { useStore } from '@/lib/store';
 import { useState, useEffect } from 'react';
-import { CheckCircle2, Briefcase, MessageSquare, Calendar, Plus } from 'lucide-react';
+import { CheckCircle2, Calendar, Plus } from 'lucide-react';
+import SectionHeader from '@/components/ui/SectionHeader';
 
 export default function Today() {
   const { jobs, interviews, habits, addHabit, updateHabit } = useStore();
@@ -44,23 +45,20 @@ export default function Today() {
   });
 
   return (
-    <div className="space-y-8">
-      {/* Page Header */}
-      <div className="border-b pb-6" style={{ borderColor: '#ede8e3' }}>
-        <div className="flex items-center gap-3 mb-2">
-          <Calendar size={32} style={{ color: '#c97a5c' }} />
-          <h1 className="text-4xl font-bold" style={{ color: '#2a2520' }}>
-            {dateStr}
-          </h1>
-        </div>
-        <p className="text-base" style={{ color: '#9b8f85' }}>Track your daily progress and accomplishments</p>
-      </div>
+    <div className="page">
+      <SectionHeader
+        icon={<Calendar size={20} />}
+        title={dateStr}
+        subtitle="Track your daily progress and accomplishments"
+      />
 
       {/* Quick Stats */}
       {todayHabits.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Today's Progress</h2>
-          <div className="grid grid-cols-3 gap-4">
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">Today's Progress</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="stat-card">
               <div className="stat-label">Completed</div>
               <div className="stat-value" style={{ color: '#7a8b6f' }}>
@@ -82,10 +80,12 @@ export default function Today() {
       )}
 
       {/* Add Entry Form */}
-      <div>
-        <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Add Entry</h2>
-        <div className="card-elevated p-6">
-          <form onSubmit={handleAddEntry} className="space-y-4">
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">Add Entry</h2>
+          </div>
+          <div className="card-elevated p-6">
+            <form onSubmit={handleAddEntry} className="space-y-4">
             <div>
               <label className="form-label mb-2 block">What did you accomplish today?</label>
               <textarea
@@ -101,23 +101,25 @@ export default function Today() {
                 rows={4}
               />
             </div>
-            <button
-              type="submit"
-              className="btn-primary w-full flex items-center justify-center gap-2"
-            >
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="btn-primary"
+              >
               <Plus size={18} />
               Add Entry
-            </button>
+              </button>
+            </div>
           </form>
         </div>
       </div>
 
       {/* Today's Entries */}
       {todayHabits.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>
-            Entries ({completedCount}/{todayHabits.length})
-          </h2>
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">Entries ({completedCount}/{todayHabits.length})</h2>
+          </div>
           <div className="space-y-3">
             {todayHabits.map(habit => (
               <div
@@ -155,11 +157,10 @@ export default function Today() {
 
       {/* Interviews Today */}
       {todayInterviews.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4 flex items-center gap-2" style={{ color: '#9b8f85' }}>
-            <Briefcase size={16} />
-            Interviews
-          </h2>
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">Interviews</h2>
+          </div>
           <div className="space-y-3">
             {todayInterviews.map(interview => (
               <div
@@ -191,11 +192,10 @@ export default function Today() {
 
       {/* Applications Today */}
       {todayJobs.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4 flex items-center gap-2" style={{ color: '#9b8f85' }}>
-            <MessageSquare size={16} />
-            Applications
-          </h2>
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">Applications</h2>
+          </div>
           <div className="space-y-3">
             {todayJobs.map(job => (
               <div
@@ -214,10 +214,12 @@ export default function Today() {
 
       {/* Empty State */}
       {todayHabits.length === 0 && todayInterviews.length === 0 && todayJobs.length === 0 && (
-        <div className="card-elevated p-16 text-center">
-          <p className="text-6xl mb-4">📝</p>
-          <h3 className="text-xl font-bold mb-2" style={{ color: '#2a2520' }}>No entries yet</h3>
-          <p style={{ color: '#9b8f85' }}>Start by adding what you're working on today</p>
+        <div className="empty-state">
+          <div className="empty-icon">📝</div>
+          <div>
+            <h3 className="text-lg font-semibold" style={{ color: '#2a2520' }}>No entries yet</h3>
+            <p style={{ color: '#9b8f85' }}>Start by adding what you're working on today.</p>
+          </div>
         </div>
       )}
     </div>

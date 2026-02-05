@@ -2,7 +2,8 @@
 
 import { useStore, HealthEntry, MigraineEntry } from '@/lib/store';
 import { useState, useEffect } from 'react';
-import { Heart, Trash2, Edit2, Plus, Activity, AlertCircle } from 'lucide-react';
+import { Heart, Trash2, Edit2, Plus } from 'lucide-react';
+import SectionHeader from '@/components/ui/SectionHeader';
 
 export default function Health() {
   const { health, addHealth, updateHealth, deleteHealth, migraines, addMigraine, updateMigraine, deleteMigraine } = useStore();
@@ -123,22 +124,20 @@ export default function Health() {
   );
 
   return (
-    <div className="space-y-8">
-      {/* Page Header */}
-      <div className="border-b pb-6" style={{ borderColor: '#ede8e3' }}>
-        <div className="flex items-center gap-3 mb-2">
-          <Heart size={32} style={{ color: '#c97a5c' }} />
-          <h1 className="text-4xl font-bold" style={{ color: '#2a2520' }}>
-            Health
-          </h1>
-        </div>
-        <p className="text-base" style={{ color: '#9b8f85' }}>Track your daily wellness and health</p>
-      </div>
+    <div className="page">
+      <SectionHeader
+        icon={<Heart size={20} />}
+        title="Health"
+        subtitle="Track your daily wellness and health"
+        action={!showForm ? { label: todayHealth ? "Update today's health" : 'Log health entry', onClick: () => setShowForm(true) } : undefined}
+      />
 
       {/* Today's Health Summary */}
       {todayHealth && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Today's Status</h2>
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">Today's Status</h2>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Mood */}
             <div className="card-elevated p-6">
@@ -180,25 +179,13 @@ export default function Health() {
       )}
 
       {/* Add/Edit Form */}
-      {!showForm && (
-        <div>
-          <button
-            onClick={() => setShowForm(true)}
-            className="btn-primary flex items-center justify-center gap-2 w-full"
-          >
-            <Plus size={20} />
-            {todayHealth ? 'Update Today\'s Health' : 'Log Health Entry'}
-          </button>
-        </div>
-      )}
-
       {showForm && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>
-            {editingId ? 'Edit Health Entry' : 'New Health Entry'}
-          </h2>
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">{editingId ? 'Edit Health Entry' : 'New Health Entry'}</h2>
+          </div>
           <form onSubmit={handleSubmit} className="card-elevated p-6 space-y-4 animate-slideUp">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="form-label mb-2 block">Date</label>
                 <input
@@ -225,7 +212,7 @@ export default function Health() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="form-label mb-2 block">Energy Level (1-10)</label>
                 <input
@@ -333,16 +320,24 @@ export default function Health() {
       )}
 
       {/* Migraine Tracking Section */}
-      <div className="border-t pt-8" style={{ borderColor: '#ede8e3' }}>
-        <div className="flex items-center gap-3 mb-6">
-          <AlertCircle size={28} style={{ color: '#c97a5c' }} />
-          <h2 className="text-2xl font-bold" style={{ color: '#2a2520' }}>Migraine Tracking</h2>
+      <div className="section">
+        <div className="section-header">
+          <h2 className="section-title">Migraine Tracking</h2>
+          {!showMigraineForm && (
+            <button onClick={() => setShowMigraineForm(true)} className="btn-secondary">
+              <Plus size={16} />
+              {todayMigraine ? 'Update entry' : 'Log entry'}
+            </button>
+          )}
         </div>
+        <p className="section-subtitle">Monitor your migraine patterns and triggers</p>
 
         {/* Today's Migraine Status */}
         {todayMigraine && (
           <div className="mb-6">
-            <h3 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Today's Migraine Status</h3>
+            <div className="section-header">
+              <h3 className="section-title">Today's Migraine Status</h3>
+            </div>
             <div className="card-elevated p-6">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -393,26 +388,13 @@ export default function Health() {
           </div>
         )}
 
-        {/* Add/Edit Migraine Form */}
-        {!showMigraineForm && (
-          <div className="mb-6">
-            <button
-              onClick={() => setShowMigraineForm(true)}
-              className="btn-primary flex items-center justify-center gap-2 w-full"
-            >
-              <Plus size={20} />
-              {todayMigraine ? 'Update Migraine Entry' : 'Log Migraine Entry'}
-            </button>
-          </div>
-        )}
-
         {showMigraineForm && (
           <div className="mb-6">
-            <h3 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>
-              {editingMigraineId ? 'Edit Migraine Entry' : 'New Migraine Entry'}
-            </h3>
+            <div className="section-header">
+              <h3 className="section-title">{editingMigraineId ? 'Edit Migraine Entry' : 'New Migraine Entry'}</h3>
+            </div>
             <form onSubmit={handleMigraineSubmit} className="card-elevated p-6 space-y-4 animate-slideUp">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="form-label mb-2 block">Date</label>
                   <input
@@ -438,7 +420,7 @@ export default function Health() {
 
               {migraineData.hadMigraine && (
                 <>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="form-label mb-2 block">Severity (1-10)</label>
                       <input
@@ -537,8 +519,8 @@ export default function Health() {
                 </>
               )}
 
-              <div className="flex gap-2">
-                <button type="submit" className="btn-primary flex-1">
+              <div className="flex flex-col sm:flex-row sm:justify-end gap-2">
+                <button type="submit" className="btn-primary w-full sm:w-auto">
                   {editingMigraineId ? 'Update' : 'Save'} Entry
                 </button>
                 <button
@@ -558,7 +540,7 @@ export default function Health() {
                       date: today,
                     });
                   }}
-                  className="btn-secondary flex-1"
+                  className="btn-secondary w-full sm:w-auto"
                 >
                   Cancel
                 </button>
@@ -570,7 +552,9 @@ export default function Health() {
         {/* Migraine History */}
         {migraines.length > 0 && (
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Migraine History</h3>
+            <div className="section-header">
+              <h3 className="section-title">Migraine History</h3>
+            </div>
             <div className="space-y-3">
               {[...migraines].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map(entry => (
                 <div key={entry.id} className="card p-4 group">
@@ -645,8 +629,10 @@ export default function Health() {
         )}
       </div>
       {sortedHealth.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Health History</h2>
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">Health History</h2>
+          </div>
           <div className="space-y-3">
             {sortedHealth.map(entry => (
               <div key={entry.id} className="card p-4 group">
@@ -710,10 +696,12 @@ export default function Health() {
 
       {/* Empty State */}
       {health.length === 0 && !showForm && (
-        <div className="card-elevated p-16 text-center">
-          <p className="text-6xl mb-4">❤️</p>
-          <h3 className="text-xl font-bold mb-2" style={{ color: '#2a2520' }}>No health entries yet</h3>
-          <p style={{ color: '#9b8f85' }}>Start tracking your daily wellness</p>
+        <div className="empty-state">
+          <div className="empty-icon">❤️</div>
+          <div>
+            <h3 className="text-lg font-semibold" style={{ color: '#2a2520' }}>No health entries yet</h3>
+            <p style={{ color: '#9b8f85' }}>Start tracking your daily wellness.</p>
+          </div>
         </div>
       )}
     </div>

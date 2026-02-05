@@ -2,7 +2,8 @@
 
 import { useStore } from '@/lib/store';
 import { useState, useEffect } from 'react';
-import { Trash2, Code2, Lightbulb, Link2, Plus, Star, Search, X } from 'lucide-react';
+import { Trash2, Code2, Lightbulb, Link2, Star, Search } from 'lucide-react';
+import SectionHeader from '@/components/ui/SectionHeader';
 
 export default function Learning() {
   const { learning, addLearning, updateLearning, deleteLearning } = useStore();
@@ -88,40 +89,22 @@ export default function Learning() {
   };
 
   return (
-    <div className="space-y-8 page-enter">
-      {/* Page Header with Premium Styling */}
-      <div className="border-b pb-6 animate-slideUp" style={{ borderColor: '#ede8e3' }}>
-        <div className="flex items-center gap-4 mb-2">
-          <div className="p-3 rounded-xl gradient-primary">
-            <Code2 size={32} style={{ color: '#ffffff' }} />
-          </div>
-          <div>
-            <h1 className="text-4xl font-bold" style={{ color: '#2a2520' }}>
-              Learning Hub
-            </h1>
-            <p className="text-base mt-1" style={{ color: '#9b8f85' }}>Document concepts, code snippets, and resources</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Add Entry Button */}
-      {!showForm && (
-        <div className="animate-slideUp" style={{ animationDelay: '0.1s' }}>
-          <button
-            onClick={() => setShowForm(true)}
-            className="btn-primary w-full flex items-center justify-center gap-2 hover-lift"
-          >
-            <Plus size={20} />
-            Add learning entry
-          </button>
-        </div>
-      )}
+    <div className="page page-enter">
+      <SectionHeader
+        icon={<Code2 size={20} />}
+        title="Learning Hub"
+        subtitle="Document concepts, code snippets, and resources"
+        action={!showForm ? { label: 'Add entry', onClick: () => setShowForm(true) } : undefined}
+      />
 
       {/* Add Entry Form */}
       {showForm && (
-        <div className="card-premium p-6 space-y-4 animate-slideUp">
+        <div className="section animate-slideUp">
+          <div className="section-header">
+            <h2 className="section-title">New Entry</h2>
+          </div>
           <form onSubmit={handleAddLearning} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="form-label mb-2 block">Type</label>
                 <select
@@ -182,7 +165,7 @@ export default function Learning() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="form-label mb-2 block">Tags (comma-separated)</label>
                 <input
@@ -223,14 +206,14 @@ export default function Learning() {
               </div>
             )}
 
-            <div className="flex gap-3 pt-4">
-              <button type="submit" className="btn-primary flex-1 hover-lift">
+            <div className="flex flex-col sm:flex-row sm:justify-end gap-3 pt-4">
+              <button type="submit" className="btn-primary w-full sm:w-auto hover-lift">
                 Save entry
               </button>
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="btn-secondary flex-1"
+                className="btn-secondary w-full sm:w-auto"
               >
                 Cancel
               </button>
@@ -241,8 +224,12 @@ export default function Learning() {
 
       {/* Search and Filters */}
       {learning.length > 0 && (
-        <div className="space-y-4 animate-slideUp" style={{ animationDelay: '0.2s' }}>
-          <div className="relative">
+        <div className="section animate-slideUp" style={{ animationDelay: '0.2s' }}>
+          <div className="section-header">
+            <h2 className="section-title">Search & Filters</h2>
+          </div>
+          <div className="space-y-4">
+            <div className="relative">
             <Search size={18} style={{ color: '#9b8f85' }} className="absolute left-4 top-3.5" />
             <input
               type="text"
@@ -252,56 +239,57 @@ export default function Learning() {
               className="w-full pl-10 pr-4 py-3 rounded-lg border-1.5"
               style={{ backgroundColor: '#ffffff', color: '#2a2520', borderColor: '#ede8e3' }}
             />
-          </div>
+            </div>
 
-          <div className="flex gap-2 flex-wrap">
-            {(['all', 'concept', 'snippet', 'resource'] as const).map((type, idx) => (
-              <button
-                key={type}
-                onClick={() => setSelectedType(type)}
-                className="px-4 py-2 rounded-lg font-medium transition-all hover-lift tag"
-                style={{
-                  animationDelay: `${0.3 + idx * 0.05}s`,
-                  backgroundColor: selectedType === type ? '#c97a5c' : '#f5f1ed',
-                  color: selectedType === type ? '#ffffff' : '#2a2520',
-                }}
-              >
-                {type === 'all' ? 'All' : typeLabels[type]}
-              </button>
-            ))}
-          </div>
-
-          {allTags.length > 0 && (
             <div className="flex gap-2 flex-wrap">
-              {allTags.map((tag, idx) => (
+              {(['all', 'concept', 'snippet', 'resource'] as const).map((type, idx) => (
                 <button
-                  key={tag}
-                  onClick={() => {
-                    setSelectedTags(prev =>
-                      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
-                    );
-                  }}
-                  className="px-3 py-1 rounded-full text-sm font-medium transition-all tag"
+                  key={type}
+                  onClick={() => setSelectedType(type)}
+                  className="px-3 py-1.5 rounded-lg text-sm font-medium transition-all tag"
                   style={{
-                    animationDelay: `${0.4 + idx * 0.05}s`,
-                    backgroundColor: selectedTags.includes(tag) ? '#c97a5c' : '#ede8e3',
-                    color: selectedTags.includes(tag) ? '#ffffff' : '#2a2520',
+                    animationDelay: `${0.3 + idx * 0.05}s`,
+                    backgroundColor: selectedType === type ? '#c97a5c' : '#f5f1ed',
+                    color: selectedType === type ? '#ffffff' : '#2a2520',
                   }}
                 >
-                  {tag}
+                  {type === 'all' ? 'All' : typeLabels[type]}
                 </button>
               ))}
             </div>
-          )}
+
+            {allTags.length > 0 && (
+              <div className="flex gap-2 flex-wrap">
+                {allTags.map((tag, idx) => (
+                  <button
+                    key={tag}
+                    onClick={() => {
+                      setSelectedTags(prev =>
+                        prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
+                      );
+                    }}
+                    className="px-2.5 py-1 rounded-full text-sm font-medium transition-all tag"
+                    style={{
+                      animationDelay: `${0.4 + idx * 0.05}s`,
+                      backgroundColor: selectedTags.includes(tag) ? '#c97a5c' : '#ede8e3',
+                      color: selectedTags.includes(tag) ? '#ffffff' : '#2a2520',
+                    }}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
 
       {/* Favorites Section */}
       {favorites.length > 0 && (
-        <div className="animate-slideUp" style={{ animationDelay: '0.3s' }}>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4 flex items-center gap-2" style={{ color: '#9b8f85' }}>
-            <span className="text-lg">⭐</span> Favorites
-          </h2>
+        <div className="section animate-slideUp" style={{ animationDelay: '0.3s' }}>
+          <div className="section-header">
+            <h2 className="section-title">Favorites</h2>
+          </div>
           <div className="space-y-3">
             {favorites.map((entry, idx) => (
               <div key={entry.id} style={{ animationDelay: `${0.4 + idx * 0.05}s` }} className="animate-slideUp">
@@ -321,10 +309,10 @@ export default function Learning() {
 
       {/* All Entries Section */}
       {others.length > 0 && (
-        <div className="animate-slideUp" style={{ animationDelay: '0.4s' }}>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>
-            {favorites.length > 0 ? 'Other Entries' : 'All Entries'}
-          </h2>
+        <div className="section animate-slideUp" style={{ animationDelay: '0.4s' }}>
+          <div className="section-header">
+            <h2 className="section-title">{favorites.length > 0 ? 'Other Entries' : 'All Entries'}</h2>
+          </div>
           <div className="space-y-3">
             {others.map((entry, idx) => (
               <div key={entry.id} style={{ animationDelay: `${0.5 + idx * 0.05}s` }} className="animate-slideUp">
@@ -344,19 +332,23 @@ export default function Learning() {
 
       {/* Empty State */}
       {learning.length === 0 && (
-        <div className="card-premium p-16 text-center animate-slideUp">
-          <p className="text-6xl mb-4">📚</p>
-          <h3 className="text-xl font-bold mb-2" style={{ color: '#2a2520' }}>No learning entries yet</h3>
-          <p style={{ color: '#9b8f85' }}>Start documenting your programming learnings</p>
+        <div className="empty-state animate-slideUp">
+          <div className="empty-icon">📚</div>
+          <div>
+            <h3 className="text-lg font-semibold" style={{ color: '#2a2520' }}>No learning entries yet</h3>
+            <p style={{ color: '#9b8f85' }}>Start documenting your programming learnings.</p>
+          </div>
         </div>
       )}
 
       {/* No Results */}
       {learning.length > 0 && filtered.length === 0 && (
-        <div className="card-premium p-16 text-center animate-slideUp">
-          <p className="text-6xl mb-4">🔍</p>
-          <h3 className="text-xl font-bold mb-2" style={{ color: '#2a2520' }}>No entries found</h3>
-          <p style={{ color: '#9b8f85' }}>Try adjusting your search or filters</p>
+        <div className="empty-state animate-slideUp">
+          <div className="empty-icon">🔍</div>
+          <div>
+            <h3 className="text-lg font-semibold" style={{ color: '#2a2520' }}>No entries found</h3>
+            <p style={{ color: '#9b8f85' }}>Try adjusting your search or filters.</p>
+          </div>
         </div>
       )}
     </div>
@@ -449,13 +441,10 @@ function LearningCard({ entry, onDelete, onToggleFavorite, typeIcons, typeColors
 
       <button
         onClick={() => setExpanded(!expanded)}
-        className="text-xs font-semibold w-full py-2 rounded-lg transition-all hover-lift"
-        style={{
-          backgroundColor: '#f5f1ed',
-          color: '#c97a5c',
-        }}
+        className="btn-ghost"
+        style={{ color: '#c97a5c' }}
       >
-        {expanded ? '▼ Hide' : '▶ View'} details
+        {expanded ? 'Hide details' : 'View details'}
       </button>
 
       {entry.tags.length > 0 && (

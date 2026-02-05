@@ -2,7 +2,8 @@
 
 import { useStore } from '@/lib/store';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { TrendingUp, Briefcase, Target, DollarSign, CheckCircle2, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
+import { TrendingUp, Briefcase, Target, DollarSign, CheckCircle2, ArrowUpRight, ArrowDownLeft, BarChart3 } from 'lucide-react';
+import SectionHeader from '@/components/ui/SectionHeader';
 
 export default function Dashboard() {
   const { jobs, interviews, habits, finances } = useStore();
@@ -64,21 +65,23 @@ export default function Dashboard() {
   const hasData = jobStats.total > 0 || interviewStats.total > 0 || totalHabits > 0 || finances.length > 0;
 
   return (
-    <div className="space-y-8 page-enter">
-      {/* Page Header */}
-      <div className="border-b pb-6 animate-slideUp" style={{ borderColor: '#ede8e3' }}>
-        <h1 className="text-4xl font-bold mb-2" style={{ color: '#2a2520' }}>Dashboard</h1>
-        <p className="text-base" style={{ color: '#9b8f85' }}>Overview of your career progress and achievements</p>
-      </div>
+    <div className="page page-enter">
+      <SectionHeader
+        icon={<BarChart3 size={20} />}
+        title="Dashboard"
+        subtitle="Overview of your career progress and achievements"
+      />
 
       {hasData ? (
         <>
           {/* Primary KPI Cards - 4 Column Grid */}
-          <div className="animate-slideUp" style={{ animationDelay: '0.1s' }}>
-            <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Key Metrics</h2>
+          <div className="section animate-slideUp" style={{ animationDelay: '0.1s' }}>
+            <div className="section-header">
+              <h2 className="section-title">Key Metrics</h2>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Total Applications */}
-              <div className="card-premium p-6 flex flex-col hover-lift">
+              <div className="card-premium p-5 flex flex-col hover-lift">
                 <div className="flex items-center justify-between mb-4">
                   <div className="stat-label">Applications</div>
                   <div className="p-2 rounded-lg gradient-primary">
@@ -95,7 +98,7 @@ export default function Dashboard() {
               </div>
 
               {/* Interview Average */}
-              <div className="card-premium p-6 flex flex-col hover-lift">
+              <div className="card-premium p-5 flex flex-col hover-lift">
                 <div className="flex items-center justify-between mb-4">
                   <div className="stat-label">Interview Avg</div>
                   <div className="p-2 rounded-lg gradient-secondary">
@@ -109,7 +112,7 @@ export default function Dashboard() {
               </div>
 
               {/* Total Income */}
-              <div className="card-premium p-6 flex flex-col hover-lift">
+              <div className="card-premium p-5 flex flex-col hover-lift">
                 <div className="flex items-center justify-between mb-4">
                   <div className="stat-label">Income</div>
                   <div className="p-2 rounded-lg gradient-secondary">
@@ -125,7 +128,7 @@ export default function Dashboard() {
               </div>
 
               {/* Completion Rate */}
-              <div className="card-premium p-6 flex flex-col hover-lift">
+              <div className="card-premium p-5 flex flex-col hover-lift">
                 <div className="flex items-center justify-between mb-4">
                   <div className="stat-label">Completion</div>
                   <div className="p-2 rounded-lg gradient-secondary">
@@ -143,11 +146,13 @@ export default function Dashboard() {
           </div>
 
           {/* Secondary Metrics */}
-          <div className="animate-slideUp" style={{ animationDelay: '0.2s' }}>
-            <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Financial Summary</h2>
+          <div className="section animate-slideUp" style={{ animationDelay: '0.2s' }}>
+            <div className="section-header">
+              <h2 className="section-title">Financial Summary</h2>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {/* Income Card */}
-              <div className="card-premium p-6 hover-lift">
+              <div className="card-premium p-5 hover-lift">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2 rounded-lg" style={{ backgroundColor: '#bbf7d0' }}>
                     <ArrowUpRight size={20} style={{ color: '#065f46' }} />
@@ -160,7 +165,7 @@ export default function Dashboard() {
               </div>
 
               {/* Expenses Card */}
-              <div className="card-premium p-6 hover-lift">
+              <div className="card-premium p-5 hover-lift">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2 rounded-lg" style={{ backgroundColor: '#fecaca' }}>
                     <ArrowDownLeft size={20} style={{ color: '#991b1b' }} />
@@ -173,7 +178,7 @@ export default function Dashboard() {
               </div>
 
               {/* Net Balance Card */}
-              <div className="card-premium p-6 hover-lift">
+              <div className="card-premium p-5 hover-lift">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2 rounded-lg" style={{ backgroundColor: netBalance >= 0 ? '#bbf7d0' : '#fecaca' }}>
                     <TrendingUp size={20} style={{ color: netBalance >= 0 ? '#065f46' : '#991b1b' }} />
@@ -188,12 +193,14 @@ export default function Dashboard() {
           </div>
 
           {/* Charts Section */}
-          <div className="animate-slideUp" style={{ animationDelay: '0.3s' }}>
-            <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Analytics</h2>
+          <div className="section animate-slideUp" style={{ animationDelay: '0.3s' }}>
+            <div className="section-header">
+              <h2 className="section-title">Analytics</h2>
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Job Status Distribution */}
               {jobStatusData.length > 0 && (
-                <div className="card-premium p-6 hover-lift">
+                <div className="card-premium p-5 hover-lift">
                   <h3 className="text-base font-bold mb-6" style={{ color: '#2a2520' }}>
                     Application Status Distribution
                   </h3>
@@ -227,7 +234,7 @@ export default function Dashboard() {
 
               {/* Interview Scores Trend */}
               {interviewTrend.length > 0 && (
-                <div className="card-premium p-6 hover-lift">
+                <div className="card-premium p-5 hover-lift">
                   <h3 className="text-base font-bold mb-6" style={{ color: '#2a2520' }}>
                     Interview Performance Trend
                   </h3>
@@ -260,9 +267,11 @@ export default function Dashboard() {
 
           {/* Financial Activity Chart */}
           {financeTrend.length > 0 && (
-            <div className="animate-slideUp" style={{ animationDelay: '0.4s' }}>
-              <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Recent Activity</h2>
-              <div className="card-premium p-6 hover-lift">
+            <div className="section animate-slideUp" style={{ animationDelay: '0.4s' }}>
+              <div className="section-header">
+                <h2 className="section-title">Recent Activity</h2>
+              </div>
+              <div className="card-premium p-5 hover-lift">
                 <h3 className="text-base font-bold mb-6" style={{ color: '#2a2520' }}>
                   Financial Transactions (Last 7 Days)
                 </h3>
@@ -287,10 +296,12 @@ export default function Dashboard() {
         </>
       ) : (
         /* Empty State */
-        <div className="card-premium p-16 text-center animate-slideUp">
-          <p className="text-6xl mb-4">📊</p>
-          <h3 className="text-xl font-bold mb-2" style={{ color: '#2a2520' }}>No Data Yet</h3>
-          <p style={{ color: '#9b8f85' }}>Start tracking your career to see insights and analytics here</p>
+        <div className="empty-state animate-slideUp">
+          <div className="empty-icon">📊</div>
+          <div>
+            <h3 className="text-lg font-semibold" style={{ color: '#2a2520' }}>No data yet</h3>
+            <p style={{ color: '#9b8f85' }}>Start tracking your career to see insights and analytics here.</p>
+          </div>
         </div>
       )}
     </div>

@@ -2,7 +2,8 @@
 
 import { useStore, FinanceEntry } from '@/lib/store';
 import { useState } from 'react';
-import { Trash2, Edit2, TrendingUp, DollarSign, Briefcase, Target, Plus, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
+import { Trash2, Edit2, TrendingUp, DollarSign, Briefcase, Target, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
+import SectionHeader from '@/components/ui/SectionHeader';
 
 export default function Progress() {
   const { jobs, interviews, finances, addFinance, updateFinance, deleteFinance } = useStore();
@@ -67,22 +68,20 @@ export default function Progress() {
   };
 
   return (
-    <div className="space-y-8">
-      {/* Page Header */}
-      <div className="border-b pb-6" style={{ borderColor: '#ede8e3' }}>
-        <div className="flex items-center gap-3 mb-2">
-          <TrendingUp size={32} style={{ color: '#c97a5c' }} />
-          <h1 className="text-4xl font-bold" style={{ color: '#2a2520' }}>
-            Progress
-          </h1>
-        </div>
-        <p className="text-base" style={{ color: '#9b8f85' }}>Track your journey and growth</p>
-      </div>
+    <div className="page">
+      <SectionHeader
+        icon={<TrendingUp size={20} />}
+        title="Progress"
+        subtitle="Track your journey and growth"
+        action={!showFinanceForm ? { label: 'Add transaction', onClick: () => setShowFinanceForm(true) } : undefined}
+      />
 
       {/* Stats Overview */}
-      <div>
-        <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Career Overview</h2>
-        <div className="grid grid-cols-4 gap-4">
+      <div className="section">
+        <div className="section-header">
+          <h2 className="section-title">Career Overview</h2>
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Applications */}
           <div className="stat-card">
             <div className="flex items-center gap-2 mb-2">
@@ -132,9 +131,11 @@ export default function Progress() {
       </div>
 
       {/* Financial Summary */}
-      <div>
-        <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Financial Summary</h2>
-        <div className="grid grid-cols-3 gap-4">
+      <div className="section">
+        <div className="section-header">
+          <h2 className="section-title">Financial Summary</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Income Card */}
           <div className="card-elevated p-6">
             <div className="flex items-center gap-3 mb-3">
@@ -171,24 +172,15 @@ export default function Progress() {
       </div>
 
       {/* Finance Tracking */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wide" style={{ color: '#9b8f85' }}>Transactions</h2>
-          {!showFinanceForm && (
-            <button
-              onClick={() => setShowFinanceForm(true)}
-              className="btn-primary flex items-center gap-2 text-sm"
-            >
-              <Plus size={16} />
-              Add
-            </button>
-          )}
+      <div className="section">
+        <div className="section-header">
+          <h2 className="section-title">Transactions</h2>
         </div>
 
         {showFinanceForm && (
           <div className="card-elevated p-6 space-y-4 mb-6 animate-slideUp">
             <form onSubmit={handleAddFinance} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="form-label mb-2 block">Type</label>
                   <select
@@ -236,10 +228,10 @@ export default function Progress() {
                   style={{ backgroundColor: '#ffffff', color: '#2a2520', borderColor: '#ede8e3' }}
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row sm:justify-end gap-2">
                 <button
                   type="submit"
-                  className="btn-primary flex-1"
+                  className="btn-primary w-full sm:w-auto"
                 >
                   {editingId ? 'Update' : 'Add'} Entry
                 </button>
@@ -256,7 +248,7 @@ export default function Progress() {
                       date: new Date().toISOString().split('T')[0],
                     });
                   }}
-                  className="btn-secondary flex-1"
+                  className="btn-secondary w-full sm:w-auto"
                 >
                   Cancel
                 </button>
@@ -323,9 +315,12 @@ export default function Progress() {
               ))}
           </div>
         ) : (
-          <div className="card-elevated p-12 text-center">
-            <p className="text-5xl mb-3">💰</p>
-            <p style={{ color: '#9b8f85' }}>No transactions yet</p>
+          <div className="empty-state">
+            <div className="empty-icon">💳</div>
+            <div>
+              <h3 className="text-lg font-semibold" style={{ color: '#2a2520' }}>No transactions yet</h3>
+              <p style={{ color: '#9b8f85' }}>Add income or expenses to see your history.</p>
+            </div>
           </div>
         )}
       </div>

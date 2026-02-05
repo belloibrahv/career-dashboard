@@ -54,8 +54,8 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
-        <div className="p-4 sm:p-6 lg:p-8 animate-fadeIn">
-          <div className="max-w-7xl mx-auto">
+        <div className="px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-10 animate-fadeIn">
+          <div className="max-w-5xl mx-auto w-full">
             <ActiveComponent />
           </div>
         </div>

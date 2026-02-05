@@ -2,7 +2,8 @@
 
 import { useStore } from '@/lib/store';
 import { useState, useEffect } from 'react';
-import { Trash2, BookOpen, PenTool, Briefcase, MessageSquare, Plus } from 'lucide-react';
+import { Trash2, BookOpen, PenTool, Briefcase, MessageSquare } from 'lucide-react';
+import SectionHeader from '@/components/ui/SectionHeader';
 
 export default function Notes() {
   const { habits, addHabit, deleteHabit } = useStore();
@@ -59,34 +60,19 @@ export default function Notes() {
   };
 
   return (
-    <div className="space-y-8">
-      {/* Page Header */}
-      <div className="border-b pb-6" style={{ borderColor: '#ede8e3' }}>
-        <div className="flex items-center gap-3 mb-2">
-          <BookOpen size={32} style={{ color: '#c97a5c' }} />
-          <h1 className="text-4xl font-bold" style={{ color: '#2a2520' }}>
-            Notes
-          </h1>
-        </div>
-        <p className="text-base" style={{ color: '#9b8f85' }}>Capture your thoughts and insights</p>
-      </div>
-
-      {/* Add Note Form */}
-      {!showForm && (
-        <div>
-          <button
-            onClick={() => setShowForm(true)}
-            className="btn-primary w-full flex items-center justify-center gap-2"
-          >
-            <Plus size={20} />
-            Add a note
-          </button>
-        </div>
-      )}
+    <div className="page">
+      <SectionHeader
+        icon={<BookOpen size={20} />}
+        title="Notes"
+        subtitle="Capture your thoughts and insights"
+        action={!showForm ? { label: 'Add note', onClick: () => setShowForm(true) } : undefined}
+      />
 
       {showForm && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>New Note</h2>
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">New Note</h2>
+          </div>
           <form onSubmit={handleAddNote} className="card-elevated p-6 space-y-4 animate-slideUp">
             <div>
               <label className="form-label mb-2 block">Note</label>
@@ -104,7 +90,7 @@ export default function Notes() {
                 autoFocus
               />
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
                 <label className="form-label mb-2 block">Category</label>
                 <select
@@ -122,7 +108,7 @@ export default function Notes() {
               <div className="flex items-end">
                 <button
                   type="submit"
-                  className="btn-primary w-full"
+                  className="btn-primary w-full sm:w-auto"
                 >
                   Save note
                 </button>
@@ -131,7 +117,7 @@ export default function Notes() {
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="btn-secondary w-full"
+              className="btn-secondary w-full sm:w-auto"
             >
               Cancel
             </button>
@@ -141,8 +127,10 @@ export default function Notes() {
 
       {/* Notes Timeline */}
       {sortedDates.length > 0 ? (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Timeline</h2>
+        <div className="section">
+          <div className="section-header">
+            <h2 className="section-title">Timeline</h2>
+          </div>
           <div className="space-y-8">
             {sortedDates.map(date => (
               <div key={date} className="animate-slideUp">
@@ -196,10 +184,12 @@ export default function Notes() {
           </div>
         </div>
       ) : (
-        <div className="card-elevated p-16 text-center">
-          <p className="text-6xl mb-4">📝</p>
-          <h3 className="text-xl font-bold mb-2" style={{ color: '#2a2520' }}>No notes yet</h3>
-          <p style={{ color: '#9b8f85' }}>Start capturing your thoughts</p>
+        <div className="empty-state">
+          <div className="empty-icon">📝</div>
+          <div>
+            <h3 className="text-lg font-semibold" style={{ color: '#2a2520' }}>No notes yet</h3>
+            <p style={{ color: '#9b8f85' }}>Start capturing your thoughts.</p>
+          </div>
         </div>
       )}
     </div>
