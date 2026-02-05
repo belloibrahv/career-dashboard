@@ -47,12 +47,26 @@ export interface HealthEntry {
   notes: string;
 }
 
+export interface LearningEntry {
+  id: string;
+  date: string;
+  type: 'concept' | 'snippet' | 'resource';
+  title: string;
+  content: string;
+  language?: string;
+  tags: string[];
+  source?: string;
+  sourceUrl?: string;
+  isFavorite: boolean;
+}
+
 interface Store {
   jobs: JobApplication[];
   interviews: InterviewSession[];
   habits: HabitEntry[];
   finances: FinanceEntry[];
   health: HealthEntry[];
+  learning: LearningEntry[];
   
   addJob: (job: Omit<JobApplication, 'id'>) => void;
   updateJob: (id: string, job: Partial<JobApplication>) => void;
@@ -74,6 +88,10 @@ interface Store {
   updateHealth: (id: string, health: Partial<HealthEntry>) => void;
   deleteHealth: (id: string) => void;
   
+  addLearning: (learning: Omit<LearningEntry, 'id'>) => void;
+  updateLearning: (id: string, learning: Partial<LearningEntry>) => void;
+  deleteLearning: (id: string) => void;
+  
   hydrate: () => void;
   persist: () => void;
 }
@@ -87,6 +105,7 @@ export const useStore = create<Store>((set, get) => ({
   habits: [],
   finances: [],
   health: [],
+  learning: [],
   
   addJob: (job) => set((state) => ({
     jobs: [...state.jobs, { ...job, id: generateId() }]
@@ -138,6 +157,16 @@ export const useStore = create<Store>((set, get) => ({
     health: state.health.filter((h) => h.id !== id)
   })),
   
+  addLearning: (learning) => set((state) => ({
+    learning: [...state.learning, { ...learning, id: generateId(), isFavorite: false }]
+  })),
+  updateLearning: (id, learning) => set((state) => ({
+    learning: state.learning.map((l) => l.id === id ? { ...l, ...learning } : l)
+  })),
+  deleteLearning: (id) => set((state) => ({
+    learning: state.learning.filter((l) => l.id !== id)
+  })),
+  
   hydrate: () => {
     if (typeof window === 'undefined') return;
     try {
@@ -161,6 +190,7 @@ export const useStore = create<Store>((set, get) => ({
         habits: state.habits,
         finances: state.finances,
         health: state.health,
+        learning: state.learning,
       }));
     } catch (error) {
       console.error('Failed to persist store:', error);

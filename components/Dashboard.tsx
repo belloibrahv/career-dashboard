@@ -64,9 +64,9 @@ export default function Dashboard() {
   const hasData = jobStats.total > 0 || interviewStats.total > 0 || totalHabits > 0 || finances.length > 0;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 page-enter">
       {/* Page Header */}
-      <div className="border-b pb-6" style={{ borderColor: '#ede8e3' }}>
+      <div className="border-b pb-6 animate-slideUp" style={{ borderColor: '#ede8e3' }}>
         <h1 className="text-4xl font-bold mb-2" style={{ color: '#2a2520' }}>Dashboard</h1>
         <p className="text-base" style={{ color: '#9b8f85' }}>Overview of your career progress and achievements</p>
       </div>
@@ -74,18 +74,18 @@ export default function Dashboard() {
       {hasData ? (
         <>
           {/* Primary KPI Cards - 4 Column Grid */}
-          <div>
+          <div className="animate-slideUp" style={{ animationDelay: '0.1s' }}>
             <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Key Metrics</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Total Applications */}
-              <div className="card-elevated p-6 flex flex-col">
+              <div className="card-premium p-6 flex flex-col hover-lift">
                 <div className="flex items-center justify-between mb-4">
                   <div className="stat-label">Applications</div>
-                  <div className="p-2 rounded-lg" style={{ backgroundColor: '#f0ebe5' }}>
-                    <Briefcase size={18} style={{ color: '#c97a5c' }} />
+                  <div className="p-2 rounded-lg gradient-primary">
+                    <Briefcase size={18} style={{ color: '#ffffff' }} />
                   </div>
                 </div>
-                <div className="stat-value mb-2">{jobStats.total}</div>
+                <div className="stat-value mb-2 stat-counter">{jobStats.total}</div>
                 <div className="flex items-center gap-2 text-xs" style={{ color: '#9b8f85' }}>
                   <span className="flex items-center gap-1">
                     <ArrowUpRight size={14} style={{ color: '#7a8b6f' }} />
@@ -95,28 +95,28 @@ export default function Dashboard() {
               </div>
 
               {/* Interview Average */}
-              <div className="card-elevated p-6 flex flex-col">
+              <div className="card-premium p-6 flex flex-col hover-lift">
                 <div className="flex items-center justify-between mb-4">
                   <div className="stat-label">Interview Avg</div>
-                  <div className="p-2 rounded-lg" style={{ backgroundColor: '#f0ebe5' }}>
-                    <Target size={18} style={{ color: '#c97a5c' }} />
+                  <div className="p-2 rounded-lg gradient-secondary">
+                    <Target size={18} style={{ color: '#ffffff' }} />
                   </div>
                 </div>
-                <div className="stat-value mb-2">{interviewStats.avgScore}%</div>
+                <div className="stat-value mb-2 stat-counter">{interviewStats.avgScore}%</div>
                 <div className="text-xs" style={{ color: '#9b8f85' }}>
                   {interviewStats.total} sessions
                 </div>
               </div>
 
               {/* Total Income */}
-              <div className="card-elevated p-6 flex flex-col">
+              <div className="card-premium p-6 flex flex-col hover-lift">
                 <div className="flex items-center justify-between mb-4">
                   <div className="stat-label">Income</div>
-                  <div className="p-2 rounded-lg" style={{ backgroundColor: '#f0ebe5' }}>
-                    <DollarSign size={18} style={{ color: '#7a8b6f' }} />
+                  <div className="p-2 rounded-lg gradient-secondary">
+                    <DollarSign size={18} style={{ color: '#ffffff' }} />
                   </div>
                 </div>
-                <div className="stat-value mb-2" style={{ color: '#7a8b6f' }}>
+                <div className="stat-value mb-2 stat-counter" style={{ color: '#7a8b6f' }}>
                   ₦{totalIncome.toFixed(0)}
                 </div>
                 <div className="text-xs" style={{ color: '#9b8f85' }}>
@@ -125,14 +125,14 @@ export default function Dashboard() {
               </div>
 
               {/* Completion Rate */}
-              <div className="card-elevated p-6 flex flex-col">
+              <div className="card-premium p-6 flex flex-col hover-lift">
                 <div className="flex items-center justify-between mb-4">
                   <div className="stat-label">Completion</div>
-                  <div className="p-2 rounded-lg" style={{ backgroundColor: '#f0ebe5' }}>
-                    <CheckCircle2 size={18} style={{ color: '#7a8b6f' }} />
+                  <div className="p-2 rounded-lg gradient-secondary">
+                    <CheckCircle2 size={18} style={{ color: '#ffffff' }} />
                   </div>
                 </div>
-                <div className="stat-value mb-2" style={{ color: '#7a8b6f' }}>
+                <div className="stat-value mb-2 stat-counter" style={{ color: '#7a8b6f' }}>
                   {completionRate}%
                 </div>
                 <div className="text-xs" style={{ color: '#9b8f85' }}>
@@ -143,38 +143,44 @@ export default function Dashboard() {
           </div>
 
           {/* Secondary Metrics */}
-          <div>
+          <div className="animate-slideUp" style={{ animationDelay: '0.2s' }}>
             <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Financial Summary</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {/* Income Card */}
-              <div className="card-elevated p-6">
+              <div className="card-premium p-6 hover-lift">
                 <div className="flex items-center gap-3 mb-3">
-                  <ArrowUpRight size={20} style={{ color: '#7a8b6f' }} />
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: '#bbf7d0' }}>
+                    <ArrowUpRight size={20} style={{ color: '#065f46' }} />
+                  </div>
                   <span className="text-sm font-semibold" style={{ color: '#9b8f85' }}>Total Income</span>
                 </div>
-                <div className="text-2xl font-bold" style={{ color: '#7a8b6f' }}>
+                <div className="text-2xl font-bold stat-counter" style={{ color: '#7a8b6f' }}>
                   ₦{totalIncome.toFixed(2)}
                 </div>
               </div>
 
               {/* Expenses Card */}
-              <div className="card-elevated p-6">
+              <div className="card-premium p-6 hover-lift">
                 <div className="flex items-center gap-3 mb-3">
-                  <ArrowDownLeft size={20} style={{ color: '#c97a5c' }} />
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: '#fecaca' }}>
+                    <ArrowDownLeft size={20} style={{ color: '#991b1b' }} />
+                  </div>
                   <span className="text-sm font-semibold" style={{ color: '#9b8f85' }}>Total Expenses</span>
                 </div>
-                <div className="text-2xl font-bold" style={{ color: '#c97a5c' }}>
+                <div className="text-2xl font-bold stat-counter" style={{ color: '#c97a5c' }}>
                   ₦{totalExpenses.toFixed(2)}
                 </div>
               </div>
 
               {/* Net Balance Card */}
-              <div className="card-elevated p-6">
+              <div className="card-premium p-6 hover-lift">
                 <div className="flex items-center gap-3 mb-3">
-                  <TrendingUp size={20} style={{ color: netBalance >= 0 ? '#7a8b6f' : '#c97a5c' }} />
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: netBalance >= 0 ? '#bbf7d0' : '#fecaca' }}>
+                    <TrendingUp size={20} style={{ color: netBalance >= 0 ? '#065f46' : '#991b1b' }} />
+                  </div>
                   <span className="text-sm font-semibold" style={{ color: '#9b8f85' }}>Net Balance</span>
                 </div>
-                <div className="text-2xl font-bold" style={{ color: netBalance >= 0 ? '#7a8b6f' : '#c97a5c' }}>
+                <div className="text-2xl font-bold stat-counter" style={{ color: netBalance >= 0 ? '#7a8b6f' : '#c97a5c' }}>
                   ₦{netBalance.toFixed(2)}
                 </div>
               </div>
@@ -182,12 +188,12 @@ export default function Dashboard() {
           </div>
 
           {/* Charts Section */}
-          <div>
+          <div className="animate-slideUp" style={{ animationDelay: '0.3s' }}>
             <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Analytics</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Job Status Distribution */}
               {jobStatusData.length > 0 && (
-                <div className="card-elevated p-6">
+                <div className="card-premium p-6 hover-lift">
                   <h3 className="text-base font-bold mb-6" style={{ color: '#2a2520' }}>
                     Application Status Distribution
                   </h3>
@@ -221,7 +227,7 @@ export default function Dashboard() {
 
               {/* Interview Scores Trend */}
               {interviewTrend.length > 0 && (
-                <div className="card-elevated p-6">
+                <div className="card-premium p-6 hover-lift">
                   <h3 className="text-base font-bold mb-6" style={{ color: '#2a2520' }}>
                     Interview Performance Trend
                   </h3>
@@ -254,9 +260,9 @@ export default function Dashboard() {
 
           {/* Financial Activity Chart */}
           {financeTrend.length > 0 && (
-            <div>
+            <div className="animate-slideUp" style={{ animationDelay: '0.4s' }}>
               <h2 className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: '#9b8f85' }}>Recent Activity</h2>
-              <div className="card-elevated p-6">
+              <div className="card-premium p-6 hover-lift">
                 <h3 className="text-base font-bold mb-6" style={{ color: '#2a2520' }}>
                   Financial Transactions (Last 7 Days)
                 </h3>
@@ -281,7 +287,7 @@ export default function Dashboard() {
         </>
       ) : (
         /* Empty State */
-        <div className="card-elevated p-16 text-center">
+        <div className="card-premium p-16 text-center animate-slideUp">
           <p className="text-6xl mb-4">📊</p>
           <h3 className="text-xl font-bold mb-2" style={{ color: '#2a2520' }}>No Data Yet</h3>
           <p style={{ color: '#9b8f85' }}>Start tracking your career to see insights and analytics here</p>

@@ -6,6 +6,7 @@ import Navigation from '@/components/Navigation';
 import Dashboard from '@/components/Dashboard';
 import Today from '@/components/Today';
 import Focus from '@/components/Focus';
+import Learning from '@/components/Learning';
 import Notes from '@/components/Notes';
 import Progress from '@/components/Progress';
 import Health from '@/components/Health';
@@ -31,6 +32,7 @@ export default function Home() {
     dashboard: Dashboard,
     today: Today,
     focus: Focus,
+    learning: Learning,
     notes: Notes,
     progress: Progress,
     health: Health,
