@@ -47,6 +47,19 @@ export interface HealthEntry {
   notes: string;
 }
 
+export interface MigraineEntry {
+  id: string;
+  date: string;
+  hadMigraine: boolean;
+  severity?: number; // 1-10 scale
+  duration?: number; // in hours
+  location?: string; // e.g., left, right, both, front, back
+  triggers?: string; // what might have caused it
+  medications?: string; // what was taken
+  relievedBy?: string; // what helped
+  notes?: string;
+}
+
 export interface LearningEntry {
   id: string;
   date: string;
@@ -67,6 +80,7 @@ interface Store {
   finances: FinanceEntry[];
   health: HealthEntry[];
   learning: LearningEntry[];
+  migraines: MigraineEntry[];
   
   addJob: (job: Omit<JobApplication, 'id'>) => void;
   updateJob: (id: string, job: Partial<JobApplication>) => void;
@@ -92,6 +106,10 @@ interface Store {
   updateLearning: (id: string, learning: Partial<LearningEntry>) => void;
   deleteLearning: (id: string) => void;
   
+  addMigraine: (migraine: Omit<MigraineEntry, 'id'>) => void;
+  updateMigraine: (id: string, migraine: Partial<MigraineEntry>) => void;
+  deleteMigraine: (id: string) => void;
+  
   hydrate: () => void;
   persist: () => void;
 }
@@ -106,6 +124,7 @@ export const useStore = create<Store>((set, get) => ({
   finances: [],
   health: [],
   learning: [],
+  migraines: [],
   
   addJob: (job) => set((state) => ({
     jobs: [...state.jobs, { ...job, id: generateId() }]
@@ -167,6 +186,16 @@ export const useStore = create<Store>((set, get) => ({
     learning: state.learning.filter((l) => l.id !== id)
   })),
   
+  addMigraine: (migraine) => set((state) => ({
+    migraines: [...state.migraines, { ...migraine, id: generateId() }]
+  })),
+  updateMigraine: (id, migraine) => set((state) => ({
+    migraines: state.migraines.map((m) => m.id === id ? { ...m, ...migraine } : m)
+  })),
+  deleteMigraine: (id) => set((state) => ({
+    migraines: state.migraines.filter((m) => m.id !== id)
+  })),
+  
   hydrate: () => {
     if (typeof window === 'undefined') return;
     try {
@@ -191,6 +220,7 @@ export const useStore = create<Store>((set, get) => ({
         finances: state.finances,
         health: state.health,
         learning: state.learning,
+        migraines: state.migraines,
       }));
     } catch (error) {
       console.error('Failed to persist store:', error);
