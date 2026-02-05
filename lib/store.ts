@@ -35,11 +35,24 @@ export interface FinanceEntry {
   description: string;
 }
 
+export interface HealthEntry {
+  id: string;
+  date: string;
+  mood: 'excellent' | 'good' | 'okay' | 'poor';
+  energy: number;
+  sleep: number;
+  exercise: boolean;
+  symptoms: string;
+  actions: string;
+  notes: string;
+}
+
 interface Store {
   jobs: JobApplication[];
   interviews: InterviewSession[];
   habits: HabitEntry[];
   finances: FinanceEntry[];
+  health: HealthEntry[];
   
   addJob: (job: Omit<JobApplication, 'id'>) => void;
   updateJob: (id: string, job: Partial<JobApplication>) => void;
@@ -57,6 +70,10 @@ interface Store {
   updateFinance: (id: string, finance: Partial<FinanceEntry>) => void;
   deleteFinance: (id: string) => void;
   
+  addHealth: (health: Omit<HealthEntry, 'id'>) => void;
+  updateHealth: (id: string, health: Partial<HealthEntry>) => void;
+  deleteHealth: (id: string) => void;
+  
   hydrate: () => void;
   persist: () => void;
 }
@@ -69,6 +86,7 @@ export const useStore = create<Store>((set, get) => ({
   interviews: [],
   habits: [],
   finances: [],
+  health: [],
   
   addJob: (job) => set((state) => ({
     jobs: [...state.jobs, { ...job, id: generateId() }]
@@ -110,6 +128,16 @@ export const useStore = create<Store>((set, get) => ({
     finances: state.finances.filter((f) => f.id !== id)
   })),
   
+  addHealth: (health) => set((state) => ({
+    health: [...state.health, { ...health, id: generateId() }]
+  })),
+  updateHealth: (id, health) => set((state) => ({
+    health: state.health.map((h) => h.id === id ? { ...h, ...health } : h)
+  })),
+  deleteHealth: (id) => set((state) => ({
+    health: state.health.filter((h) => h.id !== id)
+  })),
+  
   hydrate: () => {
     if (typeof window === 'undefined') return;
     try {
@@ -132,6 +160,7 @@ export const useStore = create<Store>((set, get) => ({
         interviews: state.interviews,
         habits: state.habits,
         finances: state.finances,
+        health: state.health,
       }));
     } catch (error) {
       console.error('Failed to persist store:', error);

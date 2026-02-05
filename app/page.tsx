@@ -8,6 +8,7 @@ import Today from '@/components/Today';
 import Focus from '@/components/Focus';
 import Notes from '@/components/Notes';
 import Progress from '@/components/Progress';
+import Health from '@/components/Health';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -32,6 +33,7 @@ export default function Home() {
     focus: Focus,
     notes: Notes,
     progress: Progress,
+    health: Health,
   };
 
   const ActiveComponent = componentMap[activeSection] || Dashboard;

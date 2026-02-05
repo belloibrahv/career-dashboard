@@ -1,4 +1,4 @@
-import { Menu, X, BarChart3, Calendar, Target, BookOpen, TrendingUp } from 'lucide-react';
+import { Menu, X, BarChart3, Calendar, Target, BookOpen, TrendingUp, Heart } from 'lucide-react';
 import Image from 'next/image';
 
 interface NavigationProps {
@@ -15,6 +15,7 @@ export default function Navigation({ activeSection, onSectionChange, mobileMenuO
     { id: 'focus', label: 'Focus', icon: Target },
     { id: 'notes', label: 'Notes', icon: BookOpen },
     { id: 'progress', label: 'Progress', icon: TrendingUp },
+    { id: 'health', label: 'Health', icon: Heart },
   ];
 
   const handleNavClick = (id: string) => {
