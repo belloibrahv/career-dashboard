@@ -117,10 +117,10 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="stat-value mb-2" style={{ color: '#7a8b6f' }}>
-                  ${totalIncome.toFixed(0)}
+                  ₦{totalIncome.toFixed(0)}
                 </div>
                 <div className="text-xs" style={{ color: '#9b8f85' }}>
-                  Expenses: ${totalExpenses.toFixed(0)}
+                  Expenses: ₦{totalExpenses.toFixed(0)}
                 </div>
               </div>
 
